@@ -1,24 +1,46 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import * as SplashScreen from 'expo-splash-screen';
+import { ThemeProvider } from '../context/ThemeContext';
+import { setupDatabase } from '../services/database';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+// Impede que a tela de abertura (splash) suma automaticamente
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    async function initializeApp() {
+      try {
+        // 1. Inicializa o banco de dados e cria as tabelas
+        setupDatabase();
+        
+        // Pequeno delay opcional para garantir que tudo foi processado
+        await new Promise(resolve => setTimeout(resolve, 500));
+      } catch (e) {
+        console.warn("Erro ao carregar o banco de dados:", e);
+      } finally {
+        // 2. Avisa que o app está pronto e esconde a splash screen
+        setIsReady(true);
+        await SplashScreen.hideAsync();
+      }
+    }
+
+    initializeApp();
+  }, []);
+
+  // Enquanto o banco não estiver pronto, não renderizamos as rotas
+  if (!isReady) {
+    return null;
+  }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+    <ThemeProvider>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="expenses" />
       </Stack>
-      <StatusBar style="auto" />
     </ThemeProvider>
   );
 }
