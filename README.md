@@ -11,7 +11,7 @@ Abaixo, a demonstração visual das principais funcionalidades do app.
 | Home Dashboard | LightMode | Gestor Despesas |
 | :---: | :---: | :---: |
 | <img src="./screenshots/1.png" width="200" /> | <img src="./screenshots/2.png" width="200" /> | <img src="./screenshots/3.png" width="200" /> |
-| **LightMode** | **Gestor Ganhos** | **Anotacoes** |
+| **Gestor Geral** | **Gestor Ganhos** | **Anotacoes** |
 | <img src="./screenshots/4.png" width="200" /> | <img src="./screenshots/5.png" width="200" /> | <img src="./screenshots/6.png" width="200" /> |
 | **PopUp Conta** | **Calendario** | **Calendario cards** |
 | <img src="./screenshots/7.png" width="200" /> | <img src="./screenshots/8.png" width="200" /> | <img src="./screenshots/9.png" width="200" /> |
