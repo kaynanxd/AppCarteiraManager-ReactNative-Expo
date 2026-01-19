@@ -11,11 +11,13 @@ Abaixo, a demonstração visual das principais funcionalidades do app.
 
 | Home Dashboard | Gestor de Contas | Calendário Dinâmico |
 | :---: | :---: | :---: |
-| <img src="./screenshots/1.png" width="200" /> | <img src="./assets/screenshots/expenses.png" width="200" /> | <img src="./assets/screenshots/calendar.png" width="200" /> |
+| <img src="./screenshots/1.png" width="200" /> | <img src="./screenshots/2.png" width="200" /> | <img src="./screenshots/3.png" width="200" /> |
 | **Bloco de Notas** | **Filtros por Período** | **Análise com Gráficos** |
-| <img src="./assets/screenshots/notes.png" width="200" /> | <img src="./assets/screenshots/filters.png" width="200" /> | <img src="./assets/screenshots/charts.png" width="200" /> |
+| <img src="./screenshots/4.png" width="200" /> | <img src="./screenshots/5.png" width="200" /> | <img src="./screenshots/6.png" width="200" /> |
 | **Modo Escuro (UI)** | **Detalhes de Transação** | **Categorias Custom** |
-| <img src="./assets/screenshots/dark_mode.png" width="200" /> | <img src="./assets/screenshots/details.png" width="200" /> | <img src="./assets/screenshots/categories.png" width="200" /> |
+| <img src="./screenshots/7.png" width="200" /> | <img src="./screenshots/8.png" width="200" /> | <img src="./screenshots/9.png" width="200" /> |
+| **Modo Escuro (UI)** | **Detalhes de Transação** | **Categorias Custom** |
+| <img src="./screenshots/11.png" width="200" /> | <img src="./screenshots/11.png" width="200" /> | <img src="./screenshots/12.png" width="200" /> |
 
 ---
 
