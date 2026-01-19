@@ -1,66 +1,55 @@
-# 💰 Dinheiro Manager (ou Quick Cash)
+# 💰 CarteiraManager
 
-Um gerenciador de finanças pessoais moderno e eficiente desenvolvido com **React Native**. O projeto foca em oferecer uma experiência de controle financeiro intuitiva, com persistência de dados local e visualização gráfica dinâmica, respeitando a estética de preferência do desenvolvedor.
+CarteiraManager é um ecossistema de produtividade pessoal desenvolvido com React Native. O projeto une um gestor financeiro robusto com um bloco de notas integrado e calendario interativo, focado em privacidade, performance offline e uma experiência de usuário fluida.
 
 ---
 
 ## 📸 Screenshots
 
-| **Filtros e Datas** | **Gráfico de Gastos** |
-|:---:|:---:|
-| <img src="./screenshots/home.png" width="250" /> | <img src="./screenshots/chart.png" width="250" /> |
-| **Lista de Transações** | **Adicionar Despesa** |
-| <img src="./screenshots/history.png" width="250" /> | <img src="./screenshots/add.png" width="250" /> |
+Abaixo, a demonstração visual das principais funcionalidades do app. 
+*(Para visualizar as imagens, adicione seus prints na pasta `assets/screenshots/`)*
+
+| Home Dashboard | Gestor de Contas | Calendário Dinâmico |
+| :---: | :---: | :---: |
+| <img src="./assets/screenshots/home.png" width="200" /> | <img src="./assets/screenshots/expenses.png" width="200" /> | <img src="./assets/screenshots/calendar.png" width="200" /> |
+| **Bloco de Notas** | **Filtros por Período** | **Análise com Gráficos** |
+| <img src="./assets/screenshots/notes.png" width="200" /> | <img src="./assets/screenshots/filters.png" width="200" /> | <img src="./assets/screenshots/charts.png" width="200" /> |
+| **Modo Escuro (UI)** | **Detalhes de Transação** | **Categorias Custom** |
+| <img src="./assets/screenshots/dark_mode.png" width="200" /> | <img src="./assets/screenshots/details.png" width="200" /> | <img src="./assets/screenshots/categories.png" width="200" /> |
 
 ---
 
-## 🚀 Tecnologias e Bibliotecas
+## 🚀 Diferenciais de Engenharia
 
-* **React Native & Expo**: Framework principal para o desenvolvimento do app.
-* **Victory Native**: Engine utilizada para a renderização do gráfico de rosca (Donut Chart) com ícones centralizados.
-* **SQLite (expo-sqlite)**: Banco de dados local para armazenamento seguro e offline das transações.
-* **Lucide React Native**: Biblioteca de ícones vetoriais.
-* **Context API**: Gerenciamento de estado para temas (Dark/Light Mode) e dados globais.
+Desenvolvido com foco em boas práticas de Engenharia de Software:
 
----
-
-## ✨ Funcionalidades Principais
-
-* **Gráfico Dinâmico**: Visualização proporcional de despesas por categoria com emojis posicionados no centro do anel.
-* **Filtros Temporais**: Navegação entre Dia, Semana, Mês e Ano para análise detalhada do fluxo de caixa.
-* **Estética Personalizada**: Interface preparada para suportar temas e elementos visuais inspirados em **Pixel Art e 8-bit**.
-* **Privacidade Total**: Todos os dados são armazenados localmente no dispositivo via SQLite.
+* **Persistência Offline (SQLite):** Implementação de banco de dados relacional local com `expo-sqlite`. Utiliza o modo **WAL (Write-Ahead Logging)** para garantir que as operações de leitura/escrita não bloqueiem a interface.
+* **Gerenciamento de Estado Global:** Uso de **Context API** (`ThemeContext`) para orquestrar temas dinâmicos (Dark/Light Mode) de forma consistente em todo o app.
+* **Otimização de Performance:** Aplicação de **Memoização** com hooks `useCallback` e `useMemo`, evitando ciclos de re-renderização custosos em listas de transações e cálculos de gráficos.
+* **Segurança de Tipos:** Código 100% escrito em **TypeScript**, com interfaces bem definidas para transações, notas e categorias, reduzindo erros em tempo de execução.
+* **Arquitetura de Navegação:** Estrutura baseada em arquivos com **Expo Router**, garantindo uma árvore de rotas limpa e intuitiva.
 
 ---
 
-## 🛠️ Como Executar
+## 🛠️ Tecnologias Utilizadas
 
-1.  **Clone este repositório:**
-    ```bash
-    git clone [https://github.com/seu-usuario/dinheiro-manager.git](https://github.com/seu-usuario/dinheiro-manager.git)
-    ```
-2.  **Instale as dependências:**
-    ```bash
-    npm install
-    ```
-3.  **Inicie o servidor de desenvolvimento:**
-    ```bash
-    npx expo start
-    ```
+* **Framework:** [React Native](https://reactnative.dev/) com [Expo](https://expo.dev/)
+* **Linguagem:** [TypeScript](https://www.typescriptlang.org/)
+* **Banco de Dados:** [SQLite](https://www.sqlite.org/index.html) (via expo-sqlite)
+* **Visualização de Dados:** [React Native Gifted Charts](https://github.com/Abhinandan-Kushwaha/react-native-gifted-charts)
+* **Ícones:** [Lucide React Native](https://lucide.dev/)
+* **Navegação:** [Expo Router](https://docs.expo.dev/routing/introduction/)
 
 ---
 
-## 👥 Equipe 7 - Projeto Universitário
-
-Este projeto foi desenvolvido pela **Equipe 7**:
-
-* **Luis Felipe**
-* **Lara Silvestre**
-* **Kaynan Santos**
-* **Ana Beatriz**
+## 🏗️ Como Rodar o Projeto
 
 ---
 
-## 📄 Licença
+## 👨‍💻 Autor
 
-Este projeto está sob a licença MIT. Consulte o arquivo `LICENSE` para mais informações.
+**Kaynan Santos**
+Estudante de Ciência da Computação na Universidade Estadual do Ceará (UECE). 
+Interessado em desenvolvimento mobile, segurança da informação e engenharia de software eficiente.
+
+---
