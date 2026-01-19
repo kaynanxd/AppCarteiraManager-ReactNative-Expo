@@ -65,24 +65,15 @@ npx expo start
 
 Abaixo, a demonstração visual das principais funcionalidades do app. 
 
+| Home Dashboard | Light Mode | Gestor Despesas |
 | :---: | :---: | :---: |
-
-| Home Dashboard | LightMode | Gestor Despesas |
-
-| <img src="./screenshots/1.png" width="200" /> | <img src="./screenshots/2.png" width="200" /> | <img src="./screenshots/3.png" width="200" /> |
-
-| **Gestor Geral** | **Gestor Ganhos** | **Anotacoes** |
-
-| <img src="./screenshots/4.png" width="200" /> | <img src="./screenshots/5.png" width="200" /> | <img src="./screenshots/6.png" width="200" /> |
-
-| **PopUp Conta** | **Calendario** | **Calendario cards** |
-
-| <img src="./screenshots/7.png" width="200" /> | <img src="./screenshots/8.png" width="200" /> | <img src="./screenshots/9.png" width="200" /> |
-
-| **Detalhes card** | **Adicionar categoria** | **Adicionar anotacao** |
-
-| <img src="./screenshots/10.png" width="200" /> | <img src="./screenshots/11.png" width="200" /> | <img src="./screenshots/12.png" width="200" /> |
-
+| <img src="./screenshots/1.png" width="200" /> | <img src="./screenshots/2.png" /> | <img src="./screenshots/3.png" /> |
+| **Gestor Geral** | **Gestor Ganhos** | **Anotações** |
+| <img src="./screenshots/4.png" width="200" /> | <img src="./screenshots/5.png" /> | <img src="./screenshots/6.png" /> |
+| **PopUp Conta** | **Calendário** | **Calendário Cards** |
+| <img src="./screenshots/7.png" width="200" /> | <img src="./screenshots/8.png" /> | <img src="./screenshots/9.png" /> |
+| **Detalhes Card** | **Adicionar Categoria** | **Adicionar Anotação** |
+| <img src="./screenshots/10.png" width="200" /> | <img src="./screenshots/11.png" /> | <img src="./screenshots/12.png" /> |
 
 ---
 
