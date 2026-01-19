@@ -17,7 +17,7 @@ Abaixo, a demonstração visual das principais funcionalidades do app.
 | **Modo Escuro (UI)** | **Detalhes de Transação** | **Categorias Custom** |
 | <img src="./screenshots/7.png" width="200" /> | <img src="./screenshots/8.png" width="200" /> | <img src="./screenshots/9.png" width="200" /> |
 | **Modo Escuro (UI)** | **Detalhes de Transação** | **Categorias Custom** |
-| <img src="./screenshots/11.png" width="200" /> | <img src="./screenshots/11.png" width="200" /> | <img src="./screenshots/12.png" width="200" /> |
+| <img src="./screenshots/10.png" width="200" /> | <img src="./screenshots/11.png" width="200" /> | <img src="./screenshots/12.png" width="200" /> |
 
 ---
 
