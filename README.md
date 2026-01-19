@@ -65,9 +65,9 @@ npx expo start
 
 Abaixo, a demonstração visual das principais funcionalidades do app. 
 
-| Home Dashboard | LightMode | Gestor Despesas |
-
 | :---: | :---: | :---: |
+
+| Home Dashboard | LightMode | Gestor Despesas |
 
 | <img src="./screenshots/1.png" width="200" /> | <img src="./screenshots/2.png" width="200" /> | <img src="./screenshots/3.png" width="200" /> |
 
