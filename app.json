@@ -1,17 +1,18 @@
 {
   "expo": {
-    "name": "DinheiroManager",
-    "slug": "DinheiroManager",
+    "name": "CarteiraManager",
+    "slug": "CarteiraManager",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "dinheiromanager",
+    "scheme": "CarteiraManager",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "package": "com.seuusuario.CarteiraManager",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -44,6 +45,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "b770abba-7da4-4345-b06f-ccb9cf4b4b09"
+      }
     }
   }
 }

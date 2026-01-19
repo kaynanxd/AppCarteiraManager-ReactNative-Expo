@@ -1,50 +1,66 @@
-# Welcome to your Expo app 👋
+# 💰 Dinheiro Manager (ou Quick Cash)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Um gerenciador de finanças pessoais moderno e eficiente desenvolvido com **React Native**. O projeto foca em oferecer uma experiência de controle financeiro intuitiva, com persistência de dados local e visualização gráfica dinâmica, respeitando a estética de preferência do desenvolvedor.
 
-## Get started
+---
 
-1. Install dependencies
+## 📸 Screenshots
 
-   ```bash
-   npm install
-   ```
+| **Filtros e Datas** | **Gráfico de Gastos** |
+|:---:|:---:|
+| <img src="./screenshots/home.png" width="250" /> | <img src="./screenshots/chart.png" width="250" /> |
+| **Lista de Transações** | **Adicionar Despesa** |
+| <img src="./screenshots/history.png" width="250" /> | <img src="./screenshots/add.png" width="250" /> |
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 🚀 Tecnologias e Bibliotecas
 
-In the output, you'll find options to open the app in a
+* **React Native & Expo**: Framework principal para o desenvolvimento do app.
+* **Victory Native**: Engine utilizada para a renderização do gráfico de rosca (Donut Chart) com ícones centralizados.
+* **SQLite (expo-sqlite)**: Banco de dados local para armazenamento seguro e offline das transações.
+* **Lucide React Native**: Biblioteca de ícones vetoriais.
+* **Context API**: Gerenciamento de estado para temas (Dark/Light Mode) e dados globais.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## ✨ Funcionalidades Principais
 
-## Get a fresh project
+* **Gráfico Dinâmico**: Visualização proporcional de despesas por categoria com emojis posicionados no centro do anel.
+* **Filtros Temporais**: Navegação entre Dia, Semana, Mês e Ano para análise detalhada do fluxo de caixa.
+* **Estética Personalizada**: Interface preparada para suportar temas e elementos visuais inspirados em **Pixel Art e 8-bit**.
+* **Privacidade Total**: Todos os dados são armazenados localmente no dispositivo via SQLite.
 
-When you're ready, run:
+---
 
-```bash
-npm run reset-project
-```
+## 🛠️ Como Executar
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+1.  **Clone este repositório:**
+    ```bash
+    git clone [https://github.com/seu-usuario/dinheiro-manager.git](https://github.com/seu-usuario/dinheiro-manager.git)
+    ```
+2.  **Instale as dependências:**
+    ```bash
+    npm install
+    ```
+3.  **Inicie o servidor de desenvolvimento:**
+    ```bash
+    npx expo start
+    ```
 
-## Learn more
+---
 
-To learn more about developing your project with Expo, look at the following resources:
+## 👥 Equipe 7 - Projeto Universitário
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Este projeto foi desenvolvido pela **Equipe 7**:
 
-## Join the community
+* **Luis Felipe**
+* **Lara Silvestre**
+* **Kaynan Santos**
+* **Ana Beatriz**
 
-Join our community of developers creating universal apps.
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Consulte o arquivo `LICENSE` para mais informações.

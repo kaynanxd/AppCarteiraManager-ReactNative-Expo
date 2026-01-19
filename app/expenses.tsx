@@ -1,70 +1,39 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { useTheme } from '../context/ThemeContext';
-import { LayoutBase } from '../components/LayoutBase';
-import { commonStyles,Footer2 } from '../components/AppComponents';
-import { AddExpenseModal } from '../components/AddExpenseModal';
-import { TransactionDetailModal } from '../components/TransactionDetailModal'; // Importado
-import { database, deleteTransaction } from '../services/database'; // Importado deleteTransaction
-import { ChevronLeft, ChevronRight } from 'lucide-react-native';
-import { PieChart } from "react-native-gifted-charts";
-
-type FilterType = 'day' | 'week' | 'month' | 'year';
+import { useTheme } from '../src/context/ThemeContext';
+import { LayoutBase } from '../src/components/LayoutBase';
+import { commonStyles,Footer2 } from '../src/components/AppComponents';
+import { AddExpenseModal } from '../src/components/AddExpenseModal';
+import { TransactionDetailModal } from '../src/components/TransactionDetailModal'; 
+import { database, deleteTransaction } from '../src/services/database'; 
+import { SummaryCards } from '@/src/components/SummaryCards';
+import { DateNavigator } from '@/src/components/DateNavigator';
+import { getRangeDates, formatDateRangeLabel, FilterType } from '@/src/utils/dateUtils';
+import { PeriodSelector } from '../src/components/PeriodSelector';
+import { ExpenseChart } from '../src/components/ExpenseChart';
+import { TransactionCard } from '../src/components/TransactionCard';
 
 export default function ExpensesScreen() {
-  const { theme } = useTheme();
+  const { theme, isDark, toggleTheme } = useTheme();
+  const [activeMode, setActiveMode] = useState<'Despesas' | 'Ganhos' | 'Geral'>('Despesas');
 
   const [chartData, setChartData] = useState<any[]>([]);
   const getCategoryColor = (index: number) => {
-  const chartColors = ['#7BC67E', '#FFB347', '#FF6961', '#779ECB', '#B19CD9'];
-  return chartColors[index % chartColors.length];
-};
+    if (!theme.chart || theme.chart.length === 0) return '#ccc'; 
+    return theme.chart[index % theme.chart.length];
+  };
 
-  
-  // Estados de Controle de Modais
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [detailVisible, setDetailVisible] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState<any>(null);
   
-  // Estados de Dados
   const [transactions, setTransactions] = useState<any[]>([]);
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
   const [totalAmount, setTotalAmount] = useState(0);
 
-  // Estados de Filtro de Data
   const [filterType, setFilterType] = useState<FilterType>('week');
   const [currentDate, setCurrentDate] = useState(new Date());
   const [dateRangeLabel, setDateRangeLabel] = useState('');
-
-  // --- Lógica de Datas ---
-  const getRangeDates = (type: FilterType, refDate: Date) => {
-    const start = new Date(refDate);
-    const end = new Date(refDate);
-
-    if (type === 'day') {
-      start.setHours(0, 0, 0, 0);
-      end.setHours(23, 59, 59, 999);
-    } else if (type === 'week') {
-      const day = start.getDay();
-      const diff = start.getDate() - day + (day === 0 ? -6 : 1);
-      start.setDate(diff);
-      start.setHours(0, 0, 0, 0);
-      end.setDate(start.getDate() + 6);
-      end.setHours(23, 59, 59, 999);
-    } else if (type === 'month') {
-      start.setDate(1);
-      start.setHours(0, 0, 0, 0);
-      end.setMonth(start.getMonth() + 1);
-      end.setDate(0);
-      end.setHours(23, 59, 59, 999);
-    } else if (type === 'year') {
-      start.setMonth(0, 1);
-      start.setHours(0, 0, 0, 0);
-      end.setMonth(11, 31);
-      end.setHours(23, 59, 59, 999);
-    }
-    return { start, end };
-  };
 
   const formatDate = (date: Date) => date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' });
 
@@ -78,61 +47,66 @@ export default function ExpensesScreen() {
     setCurrentDate(newDate);
   };
 
-  // --- Lógica de Banco de Dados ---
-  const loadData = useCallback(() => {
+const loadData = useCallback(() => {
     const { start, end } = getRangeDates(filterType, currentDate);
-    setDateRangeLabel(filterType === 'day' ? formatDate(start) : `${formatDate(start)} - ${formatDate(end)}`);
+    let label = '';
+    if (filterType === 'day') {
+      label = formatDate(start);
+    } else if (filterType === 'month') {
+      const monthName = start.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+      label = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+    } else if (filterType === 'year') {
+      label = start.getFullYear().toString();
+    } else {
+      label = `${formatDate(start)} - ${formatDate(end)}`;
+    }
+
+    setDateRangeLabel(label);
 
     const startIso = start.toISOString();
     const endIso = end.toISOString();
 
+    let queryFilter = '';
+    if (activeMode === 'Despesas') queryFilter = 'AND t.amount < 0';
+    else if (activeMode === 'Ganhos') queryFilter = 'AND t.amount > 0';
+
     const data: any = database.getAllSync(`
-      SELECT t.*, c.name as categoryName, c.icon 
-      FROM transactions t 
-      LEFT JOIN categories c ON t.category_id = c.id 
-      WHERE t.date >= ? AND t.date <= ?
-      ORDER BY t.date DESC
-    `, [startIso, endIso]);
+          SELECT t.*, c.name as categoryName, c.icon 
+          FROM transactions t 
+          LEFT JOIN categories c ON t.category_id = c.id 
+          WHERE t.date >= ? AND t.date <= ? ${queryFilter}
+          ORDER BY t.date DESC
+        `, [startIso, endIso]);
 
     setTransactions(data);
     const total = data.reduce((sum: number, item: any) => sum + item.amount, 0);
     setTotalAmount(total);
-  }, [filterType, currentDate]);
+  }, [filterType, currentDate, activeMode]);
 
-// 1. Efeito para carregar os dados do banco
 useEffect(() => {
   loadData();
-}, [loadData]); // Dispara quando muda filterType ou currentDate
+}, [loadData]); 
 
-// 2. Efeito para processar o gráfico (Evita o loop infinito)
 useEffect(() => {
-  if (transactions.length > 0) {
-const grouped = transactions.reduce((acc: any, curr: any) => {
-  const catId = curr.category_id;
+    if (transactions.length > 0) {
+      const grouped = transactions.reduce((acc: any, curr: any) => {
+        const catId = curr.category_id;
+        if (!acc[catId]) {
+          acc[catId] = {
+            value: 0,
+            color: getCategoryColor(Object.keys(acc).length),
+            text: curr.icon,
+          };
+        }
+        acc[catId].value += Math.abs(curr.amount);
+        return acc;
+      }, {});
+      setChartData(Object.values(grouped));
+    } else {
+      setChartData([{ value: 1, color: theme.card }]);
+    }
+  }, [transactions, theme.card]);
 
-  if (!acc[catId]) {
-    acc[catId] = {
-      value: 0,
-      color: getCategoryColor(Object.keys(acc).length),
-      text: curr.icon,
-      // placeholders (a lib recalcula depois)
-      shiftTextX: 0,
-      shiftTextY: 0,
-    };
-  }
-
-  acc[catId].value += curr.amount;
-  return acc;
-}, {});
-    
-    setChartData(Object.values(grouped));
-  } else {
-    setChartData([{ value: 1, color: theme.card }]);
-  }
-}, [transactions, theme.card]);
-
-  // --- Handlers de Ação ---
-// --- Handlers de Ação ---
     const handleOpenDetail = (transaction: any) => {
     setSelectedTransaction(transaction);
     setDetailVisible(true);
@@ -143,141 +117,93 @@ const grouped = transactions.reduce((acc: any, curr: any) => {
     loadData();
     };
 
-    // ADICIONE ESTA FUNÇÃO
     const handleEdit = (transaction: any) => {
-    setEditingTransaction(transaction); // Guarda os dados para o modal de cadastro
-    setDetailVisible(false);             // Fecha o popup de detalhes
-    setAddModalVisible(true);            // Abre o popup de cadastro (modo edição)
+    setEditingTransaction(transaction);
+    setDetailVisible(false);             
+    setAddModalVisible(true);            
     };
 
   return (
-    <LayoutBase noScroll={true} footer={<Footer2 activeTab="Despesas" />}>
-      {/* 1. Filtros */}
-        {/* 1. Filtros envolvidos por um contêiner (quadrado/retângulo) */}
-        <View style={[styles.filterRow, { backgroundColor: theme.card }]}>
-        {(['day', 'week', 'month', 'year'] as FilterType[]).map((type) => (
-            <TouchableOpacity
-            key={type}
+    <LayoutBase noScroll={true} footer={<Footer2 activeTab={activeMode} onTabChange={setActiveMode} />}>
+      
+      <PeriodSelector 
+        filterType={filterType} 
+        onSelect={setFilterType} 
+        theme={theme} 
+      />
+
+      <DateNavigator 
+        label={dateRangeLabel} 
+        onPrev={() => changeDate('prev')} 
+        onNext={() => changeDate('next')} 
+        color={theme.text} 
+      />
+      {/* Grafico em Rodela */}
+      <ExpenseChart 
+        chartData={chartData} 
+        totalAmount={totalAmount} 
+        activeMode={activeMode} 
+        theme={theme} 
+      />
+
+
+        
+        {/* Lista de Cards */}
+      <View style={[styles.listContainer, { backgroundColor: theme.card }]}>
+          {activeMode === 'Geral' && (
+            <SummaryCards 
+              expenses={transactions.filter(t => t.amount < 0).reduce((s, i) => s + i.amount, 0)}
+              income={transactions.filter(t => t.amount > 0).reduce((s, i) => s + i.amount, 0)}
+              balance={totalAmount}
+              theme={theme}
+            />
+          )}
+          <ScrollView 
+              showsVerticalScrollIndicator={true}
+              indicatorStyle={theme.background ? 'white' : 'black'}
+              contentContainerStyle={{ paddingRight: 15, paddingLeft: 5, paddingBottom: 20 }}
+          >
+              {transactions.length === 0 ? (
+                  <Text style={{ color: theme.text, textAlign: 'center', marginTop: 20, opacity: 0.6 }}>
+                      Nenhuma despesa neste período.
+                  </Text>
+              ) : (
+                  transactions.map((item) => (
+                      <TransactionCard 
+                          key={item.id} 
+                          item={item} 
+                          onPress={handleOpenDetail} 
+                          theme={theme} 
+                      />
+                  ))
+              )}
+          </ScrollView>
+        </View>
+
+        {/* Botão Adicionar*/}
+        {activeMode !== 'Geral' && (
+          <TouchableOpacity 
             style={[
-            styles.filterBtn, 
-            { 
-                // Se estiver ativo, usa a cor primária; se não, usa uma cor de fundo (ex: theme.card ou outra)
-                backgroundColor: filterType === type ? theme.accent : theme.primary
-            }
+              commonStyles.buttonBase, 
+              styles.addBtn, 
+              { 
+                backgroundColor: isDark ? theme.primary : theme.card
+              }
             ]}
-            onPress={() => setFilterType(type)}
-            >
-            <Text style={{ 
-                color: filterType === type ? '#FFF' : theme.text, 
-                fontSize: 12, 
-                fontWeight: filterType === type ? 'bold' : 'normal',
-                textTransform: 'capitalize' 
-            }}>
-                {type === 'day' ? 'Dia' : type === 'week' ? 'Semana' : type === 'month' ? 'Mês' : 'Ano'}
+            onPress={() => setAddModalVisible(true)}
+          >
+            <Text style={[commonStyles.buttonText, { color: theme.text }]}>
+              {activeMode === 'Ganhos' ? 'Adicionar Ganho' : 'Adicionar Despesa'}
             </Text>
-            </TouchableOpacity>
-        ))}
-        </View>
+          </TouchableOpacity>
+        )}
 
-      {/* 2. Navegação de Datas */}
-      <View style={styles.dateNavRow}>
-        <TouchableOpacity onPress={() => changeDate('prev')}><ChevronLeft size={24} color={theme.text} /></TouchableOpacity>
-        <Text style={[styles.dateLabel, { color: theme.text }]}>{dateRangeLabel}</Text>
-        <TouchableOpacity onPress={() => changeDate('next')}><ChevronRight size={24} color={theme.text} /></TouchableOpacity>
-      </View>
-
-        {/* 3. Gráfico Dinâmico */}
-        {/* 3. Gráfico Dinâmico Corrigido */}
-        <View style={styles.chartContainer}>
-<PieChart
-    data={chartData}
-    donut
-    radius={90}
-    innerRadius={65}
-    innerCircleColor={theme.background}
-    strokeWidth={2}
-    strokeColor={'#000'}
-    showText
-    textColor={theme.text}
-    textSize={20}
-    labelsPosition='onBorder' // Mantemos na borda e usamos o 'shift' para entrar
-    
-    
-    centerLabelComponent={() => (
-        <View style={{ justifyContent: 'center', alignItems: 'center', width: 120 }}>
-            <Text 
-                numberOfLines={1}
-                adjustsFontSizeToFit 
-                style={[styles.totalAmount, { color: theme.text, fontSize: 22, textAlign: 'center' }]}
-            >
-                - R$ {totalAmount.toFixed(2).replace('.', ',')}
-            </Text>
-        </View>
-    )}
-/>
-        </View>
-
-        {/* 4. Lista de Gastos (Cards Clicáveis) */}
-        <View style={[styles.listContainer, { backgroundColor: theme.card }]}>
-        <ScrollView 
-            showsVerticalScrollIndicator={true} // 1. Ative o indicador
-            indicatorStyle={theme.background ? 'white' : 'black'} // 2. Opcional: Ajusta a cor conforme o tema
-            contentContainerStyle={{ 
-            paddingRight: 15, // 3. O "Pulo do gato": Espaço para a barra de scroll não sobrepor os cards
-            paddingLeft: 5,   // Equilíbrio visual
-            paddingBottom: 20 // Espaço extra no final da lista
-            }}
-        >
-            {transactions.length === 0 ? (
-            <Text style={{ color: theme.text, textAlign: 'center', marginTop: 20, opacity: 0.6 }}>
-                Nenhuma despesa neste período.
-            </Text>
-            ) : (
-            transactions.map((item) => (
-                <TouchableOpacity key={item.id} onPress={() => handleOpenDetail(item)}>
-                <View style={[styles.itemCard, { backgroundColor: theme.primary }]}>
-                    
-                    <View style={styles.iconBox}>
-                    <Text style={{ fontSize: 20 }}>{item.icon}</Text>
-                    </View>
-
-                    <View style={{ flex: 1, alignItems: 'center' }}>
-                    <Text style={{ color: theme.text, fontWeight: 'bold', textAlign: 'center' }}>
-                        - R$ {item.amount.toFixed(2).replace('.', ',')}
-                    </Text>
-                    <Text style={{ color: theme.text, fontSize: 12, opacity: 0.7, textAlign: 'center' }}>
-                        {item.categoryName}
-                    </Text>
-                    </View>
-
-                    <View style={{ width: 40 }} /> 
-                </View>
-                </TouchableOpacity>
-            ))
-            )}
-        </ScrollView>
-        </View>
-
-        {/* 5. Botão Adicionar */}
-        <TouchableOpacity 
-        style={[commonStyles.buttonBase, styles.addBtn, { backgroundColor: theme.primary }]}
-        onPress={() => {
-            setEditingTransaction(null); // GARANTE que abra limpo para um novo gasto
-            setAddModalVisible(true);
-        }}
-        >
-        <Text style={[commonStyles.buttonText, { color: theme.text }]}>Adicionar Despesa</Text>
-        </TouchableOpacity>
-
-        {/* 6. Modais */}
         <AddExpenseModal 
-        visible={addModalVisible} 
-        onClose={() => {
-            setAddModalVisible(false);
-            setEditingTransaction(null); // Limpa o estado ao fechar
-        }} 
-        onSave={loadData} 
-        editingTransaction={editingTransaction} // PASSE A PROP AQUI
+          visible={addModalVisible} 
+          onClose={() => setAddModalVisible(false)} 
+          onSave={loadData} 
+          editingTransaction={editingTransaction}
+          activeMode={activeMode} 
         />
 
         <TransactionDetailModal 
@@ -285,7 +211,7 @@ const grouped = transactions.reduce((acc: any, curr: any) => {
         transaction={selectedTransaction}
         onClose={() => setDetailVisible(false)}
         onDelete={handleDelete}
-        onEdit={handleEdit} // CHAME A FUNÇÃO AQUI
+        onEdit={handleEdit} 
         />
       
     </LayoutBase>
@@ -317,9 +243,49 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  dateNavRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, paddingHorizontal: 100 },
+  dateNavRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: -10, paddingHorizontal: 100 },
   dateLabel: { fontSize: 14, fontWeight: '500' },
-  chartContainer: { alignItems: 'center', marginBottom: 20 },
+  
+  chartContainer: {
+    width: 240,           
+    height: 240,         
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center', 
+  },
+  overlayCenter: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  centerLabel: {
+    position: 'absolute',
+    width: 120,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  statsRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginHorizontal: 15,
+        marginBottom: 15,
+        gap: 10,
+    },
+statCard: {
+    flex: 1,
+    paddingVertical: 10,   
+    paddingHorizontal: 5,  
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center', 
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+},
+    
   donutInner: { width: 160, height: 160, borderRadius: 80, borderWidth: 15, justifyContent: 'center', alignItems: 'center' },
   totalAmount: { fontSize: 24, fontWeight: 'bold' },
   listContainer: { flex: 1, borderRadius: 25, padding: 15, paddingHorizontal:20, marginBottom: 15, marginHorizontal:20 },
@@ -328,5 +294,5 @@ const styles = StyleSheet.create({
   addBtn: { paddingVertical: 15, borderRadius: 20, marginBottom: 15, marginHorizontal:20 },
   tabBar: { flexDirection: 'row', justifyContent: 'space-around' },
   tabItem: { paddingVertical: 10, paddingHorizontal: 20 },
-  activeTab: { borderBottomWidth: 2, borderBottomColor: '#FFF' }
+  activeTab: { borderBottomWidth: 2, borderBottomColor: '#FFF' },
 });

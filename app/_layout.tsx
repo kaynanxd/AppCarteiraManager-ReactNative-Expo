@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { ThemeProvider } from '../context/ThemeContext';
-import { setupDatabase } from '../services/database';
+import { ThemeProvider } from '../src/context/ThemeContext';
+import { setupDatabase } from '../src/services/database';
 
-// Impede que a tela de abertura (splash) suma automaticamente
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -13,15 +12,12 @@ export default function RootLayout() {
   useEffect(() => {
     async function initializeApp() {
       try {
-        // 1. Inicializa o banco de dados e cria as tabelas
         setupDatabase();
         
-        // Pequeno delay opcional para garantir que tudo foi processado
         await new Promise(resolve => setTimeout(resolve, 500));
       } catch (e) {
         console.warn("Erro ao carregar o banco de dados:", e);
       } finally {
-        // 2. Avisa que o app está pronto e esconde a splash screen
         setIsReady(true);
         await SplashScreen.hideAsync();
       }
@@ -30,7 +26,6 @@ export default function RootLayout() {
     initializeApp();
   }, []);
 
-  // Enquanto o banco não estiver pronto, não renderizamos as rotas
   if (!isReady) {
     return null;
   }
