@@ -30,11 +30,11 @@ O app oferece uma solução completa para organização pessoal através das seg
 
 ---
 
-## 🏗️ Processo de Desenvolvimento (Motivação)
+## 🏗️ Processo de Desenvolvimento 
 
-A motivação para desenvolver o **CarteiraManager** surgiu da necessidade de uma ferramenta de produtividade que respeitasse a **privacidade dos dados** do usuário, mantendo tudo processado localmente. 
+A motivação para desenvolver esse app surgiu da necessidade de uma ferramenta de produtividade que respeitasse a **privacidade dos dados** do usuário, mantendo tudo processado localmente.
 
-Como estudante de Ciência da Computação, utilizei este projeto para aplicar conceitos avançados de engenharia:
+ utilizei este projeto para aplicar conceitos avançados de engenharia:
 * **Performance:** Implementação de **Memoização** (`useCallback`, `useMemo`) para evitar re-renderizações desnecessárias em listas grandes.
 * **Arquitetura de Dados:** Uso de banco de dados relacional com modo **WAL (Write-Ahead Logging)** no SQLite para garantir que operações pesadas não travem a interface.
 * **Gerenciamento de Estado:** Orquestração de temas e estados globais via **Context API**.
