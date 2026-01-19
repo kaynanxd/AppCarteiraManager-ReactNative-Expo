@@ -7,7 +7,6 @@ CarteiraManager é um ecossistema de produtividade pessoal desenvolvido com Reac
 ## 📸 Screenshots
 
 Abaixo, a demonstração visual das principais funcionalidades do app. 
-*(Para visualizar as imagens, adicione seus prints na pasta `assets/screenshots/`)*
 
 | Home Dashboard | LightMode | Gestor Despesas |
 | :---: | :---: | :---: |
