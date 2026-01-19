@@ -46,6 +46,7 @@ Desenvolvido com foco em boas práticas de Engenharia de Software:
 
 ## 🏗️ Como Rodar o Projeto
 
+baixe o apk em releases e instale em seu dispositivo android
 ---
 
 ## 👨‍💻 Autor
