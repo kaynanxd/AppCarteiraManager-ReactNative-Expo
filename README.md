@@ -11,7 +11,7 @@ Abaixo, a demonstração visual das principais funcionalidades do app.
 
 | Home Dashboard | Gestor de Contas | Calendário Dinâmico |
 | :---: | :---: | :---: |
-| <img src="./assets/screenshots/home.png" width="200" /> | <img src="./assets/screenshots/expenses.png" width="200" /> | <img src="./assets/screenshots/calendar.png" width="200" /> |
+| <img src="./assets/screenshots/1.png" width="200" /> | <img src="./assets/screenshots/expenses.png" width="200" /> | <img src="./assets/screenshots/calendar.png" width="200" /> |
 | **Bloco de Notas** | **Filtros por Período** | **Análise com Gráficos** |
 | <img src="./assets/screenshots/notes.png" width="200" /> | <img src="./assets/screenshots/filters.png" width="200" /> | <img src="./assets/screenshots/charts.png" width="200" /> |
 | **Modo Escuro (UI)** | **Detalhes de Transação** | **Categorias Custom** |
