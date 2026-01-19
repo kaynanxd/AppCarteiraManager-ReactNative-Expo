@@ -9,14 +9,14 @@ CarteiraManager é um ecossistema de produtividade pessoal desenvolvido com Reac
 Abaixo, a demonstração visual das principais funcionalidades do app. 
 *(Para visualizar as imagens, adicione seus prints na pasta `assets/screenshots/`)*
 
-| Home Dashboard | Gestor de Contas | Calendário Dinâmico |
+| Home Dashboard | LightMode | Gestor Despesas |
 | :---: | :---: | :---: |
 | <img src="./screenshots/1.png" width="200" /> | <img src="./screenshots/2.png" width="200" /> | <img src="./screenshots/3.png" width="200" /> |
-| **Bloco de Notas** | **Filtros por Período** | **Análise com Gráficos** |
+| **LightMode** | **Gestor Ganhos** | **Anotacoes** |
 | <img src="./screenshots/4.png" width="200" /> | <img src="./screenshots/5.png" width="200" /> | <img src="./screenshots/6.png" width="200" /> |
-| **Modo Escuro (UI)** | **Detalhes de Transação** | **Categorias Custom** |
+| **PopUp Conta** | **Calendario** | **Calendario cards** |
 | <img src="./screenshots/7.png" width="200" /> | <img src="./screenshots/8.png" width="200" /> | <img src="./screenshots/9.png" width="200" /> |
-| **Modo Escuro (UI)** | **Detalhes de Transação** | **Categorias Custom** |
+| **Detalhes card** | **Adicionar categoria** | **Adicionar anotacao** |
 | <img src="./screenshots/10.png" width="200" /> | <img src="./screenshots/11.png" width="200" /> | <img src="./screenshots/12.png" width="200" /> |
 
 ---
