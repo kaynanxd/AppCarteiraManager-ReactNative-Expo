@@ -43,7 +43,7 @@ Desenvolvido com foco em boas práticas de Engenharia de Software:
 
 ---
 
-## 🏗️ Como Rodar o Projeto
+### 🏗️ Como Rodar o Projeto
 
 baixe o apk em releases e instale em seu dispositivo android
 ---
@@ -52,6 +52,5 @@ baixe o apk em releases e instale em seu dispositivo android
 
 **Kaynan Santos**
 Estudante de Ciência da Computação na Universidade Estadual do Ceará (UECE). 
-Interessado em desenvolvimento mobile, segurança da informação e engenharia de software eficiente.
 
 ---
